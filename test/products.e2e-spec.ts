@@ -3,6 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { CreateProductDto } from 'src/products/dto/createProductDto';
+import { EditProductDto } from 'src/products/dto/editProductDto';
 
 const testDto: CreateProductDto = {
 	name: 'test',
@@ -14,7 +15,10 @@ const testDto: CreateProductDto = {
 	height: 2.9,
 	type: 'мікровелюр',
 	color: 'Графітовий',
-	price: 400,
+};
+
+const editTestDto: EditProductDto = {
+	name: 'editedTest',
 };
 
 describe('AppController (e2e)', () => {
@@ -38,6 +42,53 @@ describe('AppController (e2e)', () => {
 			.then(({ body }: request.Response) => {
 				testId = body.id;
 				expect(testId).toBeDefined();
+			});
+	});
+	it('/products/all (GET) | success', async () => {
+		return request(app.getHttpServer())
+			.get('/products/all')
+			.expect(200)
+			.then(({ body }: request.Response) => {
+				expect(body.length).toBeGreaterThan(0);
+			});
+	});
+	it('/products/edit (PATCH) | success', async () => {
+		return request(app.getHttpServer())
+			.patch('/products/edit/' + testId)
+			.send(editTestDto)
+			.expect(200)
+			.then(({ body }: request.Response) => {
+				expect(body).toBeDefined();
+			});
+	});
+	it('/products/edit (PATCH) | fall', async () => {
+		return request(app.getHttpServer())
+			.patch('/products/edit/' + 76889)
+			.send(editTestDto)
+			.expect(404)
+			.then(({ body }: request.Response) => {
+				expect(body.message).toBe('такого продукту не існує');
+			});
+	});
+	it('/products/delete (DELETE) | success', () => {
+		return request(app.getHttpServer())
+			.delete('/products/delete/' + testId)
+			.expect(200);
+	});
+	it('/products/delete (DELETE) | fall', async () => {
+		return request(app.getHttpServer())
+			.delete('/products/delete/' + 76889)
+			.expect(404)
+			.then(({ body }: request.Response) => {
+				expect(body.message).toBe('такого продукту не існує');
+			});
+	});
+	it('/products/all (GET) | fall', async () => {
+		return request(app.getHttpServer())
+			.get('/products/all')
+			.expect(200)
+			.then(({ body }: request.Response) => {
+				expect(body.length).toBe(0);
 			});
 	});
 });

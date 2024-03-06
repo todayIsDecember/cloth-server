@@ -24,7 +24,4 @@ export class CreateProductDto {
 
 	@IsString()
 	color: string;
-
-	@IsNumber()
-	price: number;
 }

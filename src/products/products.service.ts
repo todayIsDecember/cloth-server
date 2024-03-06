@@ -9,27 +9,45 @@ export class ProductsService {
 
 	//стоврити продукт
 	async create(dto: CreateProductDto) {
-		return this.prismaService.products.create({ data: dto });
+		return this.prismaService.products.create({
+			data: {
+				price: dto.type,
+				...dto,
+			},
+			include: { prices: true },
+		});
 	}
 
 	//отримати всі продукти
 	async getAll() {
-		return this.prismaService.products.findMany();
+		return this.prismaService.products.findMany({
+			include: {
+				prices: true,
+			},
+		});
 	}
 
 	//отримати топ 3 продукти
 	async getTopThree() {
-		return this.prismaService.products.findMany({ take: 3 });
+		return this.prismaService.products.findMany({ take: 3, include: { prices: true } });
 	}
 
 	//отримати продукти за кольором
 	async getByColor({ color, category }: { color: string; category: string }) {
-		return this.prismaService.products.findMany({ where: { color, category } });
+		return this.prismaService.products.findMany({
+			where: { color, category },
+			include: { prices: true },
+		});
 	}
 
 	//отримати продукти за категорією
 	async getByCategory(category: string) {
-		return this.prismaService.products.findMany({ where: { category } });
+		return this.prismaService.products.findMany({
+			where: { category },
+			include: {
+				prices: true,
+			},
+		});
 	}
 
 	//отримати продукт за id
@@ -39,11 +57,18 @@ export class ProductsService {
 
 	//змінити дані продукта
 	async edit(id: number, dto: EditProductDto) {
-		return this.prismaService.products.update({ where: { id: Number(id) }, data: dto });
+		return this.prismaService.products.update({
+			where: { id: Number(id) },
+			data: dto,
+			include: { prices: true },
+		});
 	}
 
 	//видалити продукт
 	async delete(id: number) {
-		return this.prismaService.products.delete({ where: { id: Number(id) } });
+		return this.prismaService.products.delete({
+			where: { id: Number(id) },
+			include: { prices: true },
+		});
 	}
 }

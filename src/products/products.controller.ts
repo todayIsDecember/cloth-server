@@ -9,54 +9,59 @@ import {
 	Param,
 	Patch,
 	Post,
+	UsePipes,
+	ValidationPipe,
 } from '@nestjs/common';
 import { CreateProductDto } from './dto/createProductDto';
 import { ProductsService } from './products.service';
 import { EditProductDto } from './dto/editProductDto';
 import { PRODUCT_NOT_FOUND_ERROR } from './products.constants';
+import { IProduct } from 'interfaces/product.interface';
 
 @Controller('products')
 export class ProductsController {
 	constructor(private readonly productsService: ProductsService) {}
 	// стоврити продукт
+	@UsePipes(new ValidationPipe())
 	@HttpCode(201)
 	@Post('create')
-	async create(@Body() dto: CreateProductDto) {
+	async create(@Body() dto: CreateProductDto): Promise<IProduct> {
 		return this.productsService.create(dto);
 	}
 
 	// отримати всі продукти
 	@HttpCode(200)
 	@Get('all')
-	async getAll() {
+	async getAll(): Promise<IProduct[]> {
 		return this.productsService.getAll();
 	}
 
 	//отримати продукти за категорією
 	@HttpCode(200)
 	@Get('getByCategory')
-	async getByCategory(@Body() dto: Pick<CreateProductDto, 'category'>) {
+	async getByCategory(@Body() dto: Pick<CreateProductDto, 'category'>): Promise<IProduct[]> {
 		return this.productsService.getByCategory(dto.category);
 	}
 
 	// отримати топ 3 продукти
 	@HttpCode(200)
 	@Get('getTopThree')
-	async getTopThree() {
+	async getTopThree(): Promise<IProduct[]> {
 		return this.productsService.getTopThree();
 	}
 
 	// отримати продукт по кольору
 	@HttpCode(200)
 	@Get('getByColor')
-	async getByColor(@Body() dto: Pick<CreateProductDto, 'color' | 'category'>) {
+	async getByColor(@Body() dto: Pick<CreateProductDto, 'color' | 'category'>): Promise<IProduct[]> {
 		return this.productsService.getByColor(dto);
 	}
 
 	//змінити дані
+	@UsePipes(new ValidationPipe())
 	@HttpCode(200)
 	@Patch('edit/:id')
-	async edit(@Body() dto: EditProductDto, @Param('id') id: number) {
+	async edit(@Body() dto: EditProductDto, @Param('id') id: number): Promise<IProduct> {
 		const product = await this.productsService.getById(id);
 		if (!product) {
 			throw new HttpException(PRODUCT_NOT_FOUND_ERROR, HttpStatus.NOT_FOUND);
@@ -67,7 +72,7 @@ export class ProductsController {
 	//видалити продукт
 	@HttpCode(200)
 	@Delete('delete/:id')
-	async delete(@Param('id') id: number) {
+	async delete(@Param('id') id: number): Promise<IProduct> {
 		const product = await this.productsService.getById(id);
 		if (!product) {
 			throw new HttpException(PRODUCT_NOT_FOUND_ERROR, HttpStatus.NOT_FOUND);
