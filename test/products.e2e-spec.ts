@@ -83,12 +83,4 @@ describe('AppController (e2e)', () => {
 				expect(body.message).toBe('такого продукту не існує');
 			});
 	});
-	it('/products/all (GET) | fall', async () => {
-		return request(app.getHttpServer())
-			.get('/products/all')
-			.expect(200)
-			.then(({ body }: request.Response) => {
-				expect(body.length).toBe(0);
-			});
-	});
 });

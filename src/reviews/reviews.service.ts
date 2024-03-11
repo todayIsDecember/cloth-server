@@ -1,0 +1,32 @@
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { CreateReviewDto } from './dto/createReview.dto';
+
+@Injectable()
+export class ReviewsService {
+	constructor(private readonly prismaService: PrismaService) {}
+	// створити відгук
+	create(dto: CreateReviewDto) {
+		return this.prismaService.reviews.create({
+			data: {
+				name: dto.name,
+				description: dto.description,
+				raiting: dto.raiting,
+			},
+		});
+	}
+
+	// отримати всі відгуки
+	getAll() {
+		return this.prismaService.reviews.findMany();
+	}
+
+	// видалити відгук
+	delete(id: number) {
+		return this.prismaService.reviews.delete({
+			where: {
+				id: Number(id),
+			},
+		});
+	}
+}

@@ -54,3 +54,10 @@ model order_details {
   orders     orders   @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_order_details_orders")
   products   products @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_order_details_products")
 }
+
+model reviews {
+  id          Int    @id(map: "pk_reviews_id") @default(autoincrement())
+  name        String
+  description String
+  raiting     Int
+}

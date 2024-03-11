@@ -1,7 +1,16 @@
-import { Body, Controller, HttpCode, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+	Body,
+	Controller,
+	Delete,
+	HttpCode,
+	Param,
+	Post,
+	UsePipes,
+	ValidationPipe,
+} from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/createOrderDto';
-import { TelegramService } from 'src/telegram/telegram.service';
+import { TelegramService } from '../telegram/telegram.service';
 import { message } from './createMessage';
 
 @Controller('orders')
