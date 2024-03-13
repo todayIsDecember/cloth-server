@@ -39,6 +39,13 @@ export class ReviewsController {
 		return this.reviewsService.getAll();
 	}
 
+	//отриати топ 3 відгука
+	@HttpCode(200)
+	@Get('getTop')
+	async getTop() {
+		return this.reviewsService.getTop();
+	}
+
 	//видалити відгук
 	@HttpCode(200)
 	@Delete('delete/:id')

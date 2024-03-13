@@ -29,4 +29,14 @@ export class ReviewsService {
 			},
 		});
 	}
+
+	//отримати топ 3 відгуки
+	getTop() {
+		return this.prismaService.reviews.findMany({
+			take: 3,
+			orderBy: {
+				raiting: 'desc',
+			},
+		});
+	}
 }

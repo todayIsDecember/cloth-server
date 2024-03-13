@@ -8,6 +8,7 @@ import { path } from 'app-root-path';
 	imports: [
 		ServeStaticModule.forRoot({
 			rootPath: `${path}/images`,
+			serveRoot: '/static',
 		}),
 	],
 	providers: [FilesService],
