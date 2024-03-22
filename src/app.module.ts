@@ -8,6 +8,7 @@ import { getTelegramConfig } from './config/getTelegramConfig';
 import { OrdersModule } from './orders/orders.module';
 import { ReviewsModule } from './reviews/reviews.module';
 import { FilesModule } from './files/files.module';
+import { DeliveryModule } from './delivery/delivery.module';
 
 @Module({
 	imports: [
@@ -23,6 +24,7 @@ import { FilesModule } from './files/files.module';
 		OrdersModule,
 		ReviewsModule,
 		FilesModule,
+		DeliveryModule,
 	],
 	controllers: [],
 	providers: [],
