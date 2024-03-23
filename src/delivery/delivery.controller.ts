@@ -14,7 +14,7 @@ export class DeliveryController {
 
 	@HttpCode(200)
 	@Post('getWarehouses')
-	async getWarehouses(@Body('CityName') CityName: string) {
-		return await this.deliveryService.getWarehouses(CityName);
+	async getWarehouses(@Body('CityName') CityName: string, @Body('keywords') keywords: string) {
+		return await this.deliveryService.getWarehouses(CityName, keywords);
 	}
 }

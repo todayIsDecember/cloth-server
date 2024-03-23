@@ -31,7 +31,7 @@ export class DeliveryService {
 		return this.parseAdresses(res.data.data);
 	}
 
-	async getWarehouses(CityName: string) {
+	async getWarehouses(CityName: string, keywords: string) {
 		const res = await lastValueFrom(
 			this.httpService.post(API_URL, {
 				apiKey: this.api_key,
@@ -39,6 +39,7 @@ export class DeliveryService {
 				calledMethod: 'getWarehouses',
 				methodProperties: {
 					CityName,
+					FindByString: keywords,
 				},
 			}),
 		);
