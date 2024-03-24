@@ -18,7 +18,11 @@ export class ReviewsService {
 
 	// отримати всі відгуки
 	getAll() {
-		return this.prismaService.reviews.findMany();
+		return this.prismaService.reviews.findMany({
+			orderBy: {
+				id: 'desc',
+			},
+		});
 	}
 
 	// видалити відгук
@@ -36,6 +40,9 @@ export class ReviewsService {
 			take: 3,
 			orderBy: {
 				raiting: 'desc',
+			},
+			where: {
+				raiting: 5,
 			},
 		});
 	}

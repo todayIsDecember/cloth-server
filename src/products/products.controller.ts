@@ -57,6 +57,13 @@ export class ProductsController {
 		return this.productsService.getByColor(dto);
 	}
 
+	// отримати всі кольори за типом
+	@HttpCode(200)
+	@Post('getColors')
+	async getColorsByType(@Body() dto: Pick<CreateProductDto, 'type'>): Promise<string[]> {
+		return this.productsService.getColorsByType(dto.type);
+	}
+
 	//змінити дані
 	@UsePipes(new ValidationPipe())
 	@HttpCode(200)

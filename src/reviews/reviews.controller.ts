@@ -29,7 +29,7 @@ export class ReviewsController {
 		const review = await this.reviewsService.create(dto);
 		const templateMessage = messageReview(review);
 		await this.telegramService.sendMessage(templateMessage);
-		return review;
+		return { success: true };
 	}
 
 	//Отримати всі відгуки

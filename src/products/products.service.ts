@@ -50,6 +50,23 @@ export class ProductsService {
 		});
 	}
 
+	//отримати всі кольори за типом
+	async getColorsByType(type: string): Promise<string[]> {
+		const colors: string[] = [];
+		return this.prismaService.products
+			.findMany({
+				where: { type },
+				select: { color: true },
+				distinct: ['color'],
+			})
+			.then((res) => {
+				res.forEach((el) => {
+					colors.push(el.color);
+				});
+				return colors;
+			});
+	}
+
 	//отримати продукт за id
 	async getById(id: number) {
 		return this.prismaService.products.findUnique({ where: { id: Number(id) } });
